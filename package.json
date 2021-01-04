@@ -1,0 +1,40 @@
+{
+  "name": "book_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js"
+  },
+  "engine": {
+    "node": "8.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nkathaaa/Book_App.git"
+  },
+  "author": "Nkatha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nkathaaa/Book_App/issues"
+  },
+  "homepage": "https://github.com/Nkathaaa/Book_App#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^3.6.1",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment-js": "^1.1.15",
+    "mongoose": "^5.11.8",
+    "nodemon": "^2.0.6",
+    "preprocessor-loader": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.14"
+  }
+}
