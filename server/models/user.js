@@ -1,12 +1,13 @@
 
 const mongoose=require("mongoose");
 const bcrypt = require ('bcrypt');
-const config=require('./../config/config')
+const config=require('./../config/config').get(process.env.NODE_ENV);
 const { send } = require("process");
 const { json } = require("body-parser");
+const jwt=require('jsonwebtoken')
 
 const SALT = 10;
-let Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const userSchema=Schema({
     email:{
       
@@ -35,77 +36,78 @@ const userSchema=Schema({
     
     
 })
-const User= mongoose.model('user',userSchema);
+
 //prior to saving user..run hashing function
 userSchema.pre('save',function(next){
-const user=this;
+    var user = this;
 
-if(user.isModified('password'))
-{
-    //generate salt
-    bcrypt.genSalt(SALT,function(err,salt){
-        if(err)return next(err)
-        bcrypt.hash(user.password,salt,function(hash,err){
-            if(err)return next(err)
-            user.password=hash
+    if(user.isModified('password')){
+        bcrypt.genSalt(SALT,function(err,salt){
+            if(err) return next(err);
 
+            bcrypt.hash(user.password,salt,function(err,hash){
+                if(err) return next(err);
+                user.password = hash;
+                next();
+            })
         })
-
-    })
-}else{
-    next()
-}
-
+    } else {
+        next()
+    }
 })
 
-userSchema.methods.comparePasswords=(passwordToCompare,callback)=>
-{
-    bcrypt.compare(passwordToCompare,user.password,(err,isMatch)=>{
-        if(err) return callback(err)
-        else callback(null,isMatch)
-    })
-}
-userSchema.methods.generateToken=(function(cb){
-    const user=this
-    const token=jwt.sign(user._id.toHexString(),config.SECRET);
 
+userSchema.methods.comparePasswords=function(passwordToCompare,cb)
+{
+    
+    bcrypt.compare(passwordToCompare,this.password,(err,isMatch)=>{
+        if(err) return cb(err)
+         cb(null,isMatch)
+    })
+
+}
+
+
+//generate toke to store user session.....its checked by the auth middleware to confirm whether
+//user is logged in or not
+userSchema.methods.generateToken=function(cb)
+{
+    let user=this
+    let token=jwt.sign(user._id.toHexString(),config.SECRET)
     user.token=token
     user.save((err,user)=>{
-        if(!user)return cb(err)
+        if(err)return cb(err)
         cb(null,user)
-        
     })
-})
+}
+
 
 //function that findsToken ,decodes it,checks user_id details as it is the fondation block of the token
 userSchema.statics.findByToken=function(token,cb){
-var user=this
-jwt.verify(token,process.env.SECRET,function(decode,err){
-user.findOne({"_id":decode,token},function(user,err){
+let user=this
+jwt.verify(token,config.SECRET,function(err,decode){
+user.findOne({"_id":decode,"token":token},function(err,user){
     if(err)return cb(err)
     cb(user,null)
 })    
 
 })
 }
-userSchema.statics.deleteToken=function(token,cb){
-var user=this
-jwt.verify(token,process.env.SECRET,function(decode,err){
-    user.findOne({"_id":decode,token},function(user,err){
-        if(err)return cb(err)
-        cb(user,null)
-    })  
-  tokenTodel=user.token
-  user.findByIdAndDelete(tokenTodel,function(err,docs){
-      if(err)return send(err)
-      json({
-          message:"deleted succesfully",
-          docs
-      })
 
-  })  
 
+
+userSchema.methods.deleteToken=function(token,cb){
+let user=this
+user.update({$unset:{token:1}},(err,user)=>{
+    if(err)return cb(err)
+    cb(null,user)
 })
 
+
 }
+
+
+const User = mongoose.model('User',userSchema)
+
+
 module.exports={ User }

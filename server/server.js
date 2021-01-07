@@ -15,10 +15,11 @@ mongoose.connect("mongodb://localhost:27017/booksShelf");
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const { User }=require("./models/user");
+
 const { Book }=require("./models/book");
 const { json } = require('body-parser');
 const {auth}=require('./middleware/auth');
+const { User } = require("./models/user");
 
 const port=process.env.PORT || 3001
 app.listen(port,()=>{
@@ -100,10 +101,11 @@ app.post('/api/register',(req,res)=>{
 })
 
 
-app.post('api/login',(req,res)=>{
+app.post('/api/login',(req,res)=>{
+  
     //find the email address received from the req.body.emeil field
-user.findOne({"email":req.body.email},(err,user)=>{
-    if(!user)return res.send(err).json({
+User.findOne({"email":req.body.email},(err,user)=>{
+    if(!user)return res.json({
         message:"username incorrect",
         isAuth:false
     })
@@ -111,7 +113,12 @@ user.findOne({"email":req.body.email},(err,user)=>{
     //the comparePasswords method is implemented in the user.js file
     //If no match return value in isAuth is false
     user.comparePasswords(req.body.password,(err,isMatch)=>{
-    if(!isMatch)return res.json({message:"password is incorrect ", isAuth:false})
+
+   if(!isMatch)return res.json
+   ({
+    message:"password is incorrect ",
+    isAuth:false
+   })
     //generate a token that ca be used to authenticate user as they 
     //move todifferent pages
     user.generateToken((err,user)=>{
@@ -133,11 +140,11 @@ user.findOne({"email":req.body.email},(err,user)=>{
 //Get the reviewer given the ownerId which essentially comes from the id in the user collection
 app.get('/api/getReviewer',(req,res)=>{
     const id=req.query.id
-    user.findById(id,(err,doc)=>{
+    User.findById(id,(err,doc)=>{
         if(err)return status(400).send(err)
         res.json({
             name:doc.name,
-            lastname:doc.lastname
+            
             
         })
     })
@@ -145,7 +152,7 @@ app.get('/api/getReviewer',(req,res)=>{
 
 //Get all the users
 app.get('/api/users',(req,res)=>{
-    user.find({},(err,users)=>{
+    User.find({},(err,users)=>{
         if(err)return res.status(400).send(err)
         res.status(200).send(users)
     })
@@ -162,10 +169,18 @@ app.get('/api/getUserPosts',(req,res)=>{
 
 
 app.get('/api/logout',auth,(req,res)=>{
-    req.user.deleteToken(token,(user,err)=>{
+    req.user.deleteToken(req.token,(user,err)=>{
         if(err) return res.status(400).send(err)
-        res.status(200)
+        res.send.Status(200)
     })
   
     
+    })
+
+    app.get("/api/auth",auth,(req,res)=>{
+        res.json({
+            id:req.user._id,
+            name:req.user.lastname,
+            email:req.user.email
+        })
     })
