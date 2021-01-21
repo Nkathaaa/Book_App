@@ -31,7 +31,7 @@ const bookSchema=Schema({
 
     },
     ownerId:{
-        type:Number,
+        type:String,
      
 
     }

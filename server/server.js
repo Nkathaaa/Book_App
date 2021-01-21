@@ -141,9 +141,9 @@ User.findOne({"email":req.body.email},(err,user)=>{
 app.get('/api/getReviewer',(req,res)=>{
     const id=req.query.id
     User.findById(id,(err,doc)=>{
-        if(err)return status(400).send(err)
+        if(err)return res.status(400).send(err)
         res.json({
-            name:doc.name,
+            lastname:doc.lastname,
             
             
         })
