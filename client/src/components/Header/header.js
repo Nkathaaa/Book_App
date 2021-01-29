@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+
 import Nav from "../SideNav/sideNav";
 import {Link } from "react-router-dom";
 
@@ -19,15 +18,7 @@ import {Link } from "react-router-dom";
         return (
             <header>
            <div className="open_nav">
-              
-              <FontAwesomeIcon icon={faBars}
-                      onClick={()=> this.setState({showNav:true})}
-                      style={{
-                          color:'#ffffff',
-                          padding:'10px',
-                          cursor:'pointer'
-                      }}
-                  />
+          
            
                   </div>  
                  <Nav  showNav={this.state.showNav} oHideNav={()=>this.onHideNav()} />

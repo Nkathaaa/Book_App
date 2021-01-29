@@ -18,7 +18,7 @@ const Routes=()=> {
                <Route path ="/user" exact component={Auth(User,true)}/>
                <Route path="/books/:id" exact component={BookView}/>
                <Route path="/user/addBook" exact component={Auth(NewBook,true)}/>
-             
+               <Route path="/user/userPosts" exact component={Auth(UserPosts,true)}/>
              
            </Switch>
            

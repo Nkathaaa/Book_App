@@ -10,6 +10,11 @@ export default function(state={},action)
         return{
             ...state,login:action.payload
         }
+        case 'GETUSERPOSTS':
+        return{
+                ...state,
+                books:action.payload
+            }
         default:
             return state;
             
