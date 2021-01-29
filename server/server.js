@@ -37,7 +37,7 @@ app.post('/api/book',(req,res)=>{
         if(err)return res.status(400).send(err)
         res.status(200).json({
             post:true,
-            id:doc.id
+            bookId:doc.id
         })
     })
 })
@@ -161,9 +161,9 @@ app.get('/api/users',(req,res)=>{
 
 //get the posts belonging to a certain user
 app.get('/api/getUserPosts',(req,res)=>{
-    user.findById({ownerId:req.user.id},(err,docs)=>{
+    Book.find({ownerId:req.query.user}).exec((err,docs)=>{
         if(err)return res.status(400).send(err)
-        res.status(200).send(docs)
+        res.send(docs)
     })
 })
 

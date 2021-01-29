@@ -10,7 +10,7 @@ import Routes from "./route";
 
 //create store to hold the content of the app
 //initilise/note middlware ie promiseMidlware and ReduxThunk t
-const createStoreWithMiddleWare=applyMiddleware(promiseMiddleware,ReduxThunk)(createStore)
+const createStoreWithMiddleWare=applyMiddleware(ReduxThunk,promiseMiddleware,)(createStore)
 ReactDOM.render(
   //the provider provides the created store to the react components in the app
 <Provider store={createStoreWithMiddleWare(rootreducers)}>

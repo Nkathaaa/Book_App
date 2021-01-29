@@ -1,4 +1,5 @@
 import axios from "axios";
+import { response } from "express";
 
 
 
@@ -73,5 +74,42 @@ export function LoginUser({email,password})
     type:"LOGIN_USER",
     payload:request
    
+  }
+}
+
+export function auth()
+{
+  const request=axios.get('/api/auth')
+  .then(response=>response.data)
+  return{
+    type:"AUTH",
+    payload:request
+  }
+}
+export function AddBook(book)
+{
+  const request=axios.post('/api/book',book)
+  .then(response=>response.data)
+  return{
+    type:"ADDBOOK",
+    payload:request
+  }
+}
+
+export function ClearBookView()
+{
+ return{
+   type:"CLEAR_BOOK_VIEW",
+   payload:{}
+ }
+}
+
+export function GetUserPosts(userId)
+{
+  const request=axios.get(`/api/getUserPosts?user=${userId}`)
+  .then(response=>response.data)
+  return{
+    type:"GETUSERPOSTS",
+    payload:request
   }
 }

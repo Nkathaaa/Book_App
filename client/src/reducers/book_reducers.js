@@ -13,12 +13,17 @@ export default function (state={},action)
                     book:action.payload.book,
                     reviewer:action.payload.reviewer
                 }
-                case "CLEAR_REVIEWER_OF":
+             case "CLEAR_REVIEWER_OF":
                 return{
                     ...state,
                     book:action.payload.book,
                     reviewer:action.payload.reviewer
                 }
+             case "ADDBOOK":
+                    return{
+                        ...state,
+                        newBook:action.payload
+                    }
         default:
             return state;
             
