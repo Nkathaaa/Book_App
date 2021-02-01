@@ -13,7 +13,7 @@ export default function(state={},action)
         case 'GETUSERPOSTS':
         return{
                 ...state,
-                books:action.payload
+                userPosts:action.payload
             }
         default:
             return state;

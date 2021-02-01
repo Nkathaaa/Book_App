@@ -2,6 +2,7 @@ import axios from "axios";
 
 
 
+
 export function getBooks
 (
    
@@ -109,6 +110,36 @@ export function GetUserPosts(userId)
   .then(response=>response.data)
   return{
     type:"GETUSERPOSTS",
+    payload:request
+  }
+}
+
+
+export function GetBook(id){
+  const request=axios.get(`/api/getBook?id=${id}`)
+  .then(response=>response.data)
+  return{
+    type:"GETBOOK",
+    payload:request
+  }
+}
+
+export function UpdatePosts(bookId)
+{
+  const request=axios.post(`/api/bookUpdate?book=${bookId}`)
+  .then(response=>response.data)
+  return{
+    type:"UPDATEPOST",
+    payload:request
+  }
+}
+
+export function DeletePosts(bookId)
+{
+  const request=axios.get(`/api/bookDelete?book=${bookId}`)
+  .then(response=>response.data)
+  return{
+    type:"DELETEPOST",
     payload:request
   }
 }

@@ -1,13 +1,12 @@
 const express = require('express');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 //set config setting based on envmt..both db  and secret key
 const config=require('./config/config');
-
-const app = express();
-
+const app=express();
 
 
 mongoose.Promise = global.Promise;
