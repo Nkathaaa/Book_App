@@ -15,8 +15,22 @@ export default function(state={},action)
                 ...state,
                 userPosts:action.payload
             }
+
+        case "USERADD":
+        return{
+
+               ...state,
+               register:action.payload.success,
+               users:action.payload.users
+        } 
+        case "ALLUSERS":
+        return{
+            ...state,
+            AllUsers:action.payload
+        }      
         default:
             return state;
+
             
     }
 }

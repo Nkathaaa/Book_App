@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {connect} from "react-redux";
-import { GetBook,UpdatePosts } from "../../actions"
+import { Link } from "react-router-dom"
+import { GetBook,UpdatePosts,DeletePosts,clearPosts } from "../../actions"
 
  class EditBook extends PureComponent {
      state={
@@ -30,12 +31,25 @@ import { GetBook,UpdatePosts } from "../../actions"
          })
 
      }
+     deletePost=()=>{
+         this.props.dispatch(DeletePosts(this.props.match.params.id))
+
+     }
+     componentWillUnmount=()=>{
+         this.props.dispatch(clearPosts())
+     }
+     reloadToHomePage=()=>{
+        setTimeout(()=>{
+            this.props.history.push('/user/userPosts')
+        },1500)
+    }
+
      componentWillMount(){      
         this.props.dispatch(GetBook(this.props.match.params.id))
      }
-     componentWillReceiveProps(nextProps){
-         const book=nextProps.books.book
-         this.setState({
+    componentWillReceiveProps(nextProps){
+        let book = nextProps.books.book;
+        this.setState({
             formdata:{
                 _id:book._id,
                 name:book.name,
@@ -45,14 +59,33 @@ import { GetBook,UpdatePosts } from "../../actions"
                 rating:book.rating,
                 price:book.price
             }
-         })
-
-     }
+        })
+    }
     render() {
-        
+        const books=this.props.books
         console.log(this.props)   
         return (
+         
             <div className="rl_container article">
+            {
+               books.updateBook ? 
+               <div className="edit_confirm">
+                   post updated, 
+                   <Link to={`/books/${books.book._id}}`}> Click here to see updated link</Link>
+                </div>
+               :
+               null
+            }
+            {
+                
+                books.deletedPost ?
+                <div className="red_tag">
+                    Post Deleted
+                    {this.reloadToHomePage()}
+                </div> 
+                :
+                null   
+            }
             <form onSubmit={this.submitForm}>
                 <h2>Add a review</h2>
 
@@ -110,10 +143,11 @@ import { GetBook,UpdatePosts } from "../../actions"
                     />
                 </div>
 
-                <button type="submit">Add review</button>
+                <button type="submit"> review</button>
                 <div className="delete_post">
-                    <div className="button">
+                    <div className="button" onClick={this.deletePost}>
                         Delete Review
+                        
                     </div>
                     
                 </div> 

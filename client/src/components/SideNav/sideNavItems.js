@@ -1,55 +1,73 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars,faCheckSquare,faCheckCircle,faCoffee } from "@fortawesome/fontawesome-free-solid";
+import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
 
 
 const SideNavItems = () => {
     const items=[
-        {
-            type:"nav-item",
-            icon:"faCoffe",
-            text:"Add Users",
-            link:"/",
+        {   type:"navItem",
+            icon:{faBars},
+            text:"Add Revies",
+            link:"/user/addBook",
             restricted:false
                 
          },
          {
-            type:"nav-item",
-            icon:"faCoffee",
+            type:"navItem",
+            icon:{faBars},
             text:"Login",
-            link:"/",
+            link:"/login",
             restricted:false
                 
          },
          {
-            type:"nav-item",
-            icon:"faCoffe",
+            type:"navItem",
+            icon:{faBars},
             text:"Logout",
-            link:"/user/logout",
+            link:"/logout",
             restricted:false
                 
          },{
-            type:"nav-item",
-            icon:"faCoffe",
-            text:"Add Users",
-            link:"/user/add",
-            restricted:false
+            type:"navItem",
+            icon:{faBars},
+            text:"Add Admins",
+            link:"/register",
+            restricted:true
                 
          },
          
          {
-            type:"nav-item",
-            icon:"faCoffe",
-            link:"/",
+            type:"navItem",
+            text:"My Reviews",
+            icon:{faBars},
+            link:"/user/userPosts",
             restricted:false
                 
          },
+               
+         {
+            type:"navItem",
+            text:"My Profile",
+            icon:{faCoffee},
+            link:"/user",
+            restricted:false
+                
+         },
+         
+         
+      
 ]
 const element=(item ,i)=>(
     <div key={i} className={item.type}>
+         <FontAwesomeIcon icon={item.icon}  style={{color:"black"}}/>
         <Link to={item.link} >
+       
             {item.text}
+           
             </Link>
-        
+           
      
     </div>
 )

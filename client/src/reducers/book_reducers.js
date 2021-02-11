@@ -34,11 +34,12 @@ export default function (state={},action)
                         ...state,
                         updateBook:action.payload.success,
                         book:action.payload.doc
-                    }        
+                    }      
+                      
              case "DELETEPOST":
                      return{
                          ...state,
-                         newBook:action.payload
+                         deletedPost:action.payload
                         }
         default:
             return state;

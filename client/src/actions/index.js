@@ -124,9 +124,9 @@ export function GetBook(id){
   }
 }
 
-export function UpdatePosts(bookId)
+export function UpdatePosts(data)
 {
-  const request=axios.post(`/api/bookUpdate?book=${bookId}`)
+  const request=axios.post(`/api/bookUpdate`,data)
   .then(response=>response.data)
   return{
     type:"UPDATEPOST",
@@ -134,12 +134,61 @@ export function UpdatePosts(bookId)
   }
 }
 
-export function DeletePosts(bookId)
+export function DeletePosts(id)
 {
-  const request=axios.get(`/api/bookDelete?book=${bookId}`)
+  const request=axios.get(`/api/bookDelete?id=${id}`)
   .then(response=>response.data)
   return{
     type:"DELETEPOST",
     payload:request
   }
+}
+
+export function clearPosts()
+{
+  return{
+    type:"CLEARPOST",
+    payload:{
+      book:null,
+      updateBook:false,
+      postDeleted:false
+    }
+  }
+}
+
+//Regiter user action
+export function RegisterUser(user,userList)
+{
+  const request=axios.post(`/api/register`,user)
+  return(dispatch)=>{
+    request.then(({data})=>{
+      let users = data.success ? [...userList,data.user]:userList;
+      let response = {
+          success:data.success,
+          users
+      }
+    
+     dispatch({
+       type:"USERADD",
+       payload:response
+     })
+    })
+  }
+
+}
+
+export function GetUsers()
+{
+  const request=axios.get('/api/users')
+  .then(response=>response.data)
+  return{
+    type:"ALLUSERS",
+    payload:request
+  }
+
+}
+
+export function LogoutUSer()
+{
+  
 }

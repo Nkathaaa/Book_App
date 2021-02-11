@@ -18,6 +18,9 @@ const userSchema=Schema({
         type:String,
       
     },
+    password2:{
+        type:String
+    },
     firstname:{
         type:String
 

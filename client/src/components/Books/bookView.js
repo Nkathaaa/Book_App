@@ -17,7 +17,7 @@ class BookView extends Component {
                <h2>{books.book.name}</h2>
                <h5>{books.book.author}</h5>
                <div className="br_review">
-                   <span>Review By:</span>{books.reviewer.name}{books.reviewer.lastname}
+                   <span>{books.reviewer.lastname}</span>
 
                </div>
                
@@ -46,7 +46,7 @@ class BookView extends Component {
 
     )
     render() {
-        
+        console.log(this.props)
          const books=this.props.books
         return (
             <div>
